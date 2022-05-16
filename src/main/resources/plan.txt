@@ -1,0 +1,63 @@
+String - like "%pattern%"
+Int | 
+
+
+StringType = subStringPattern
+ValueTypes = predicate ( GTE, LTE, BTW)
+DateType = predicate ( GTE, LTE, BTW)
+IpType = maskPattern
+
+K- тип ключа
+T - тип значения
+
+IRepository<K, T>{
+	T getById(K id);
+	List<T> getAll();
+	void create(K key, T value);
+	void updateItm(K key, T newValue);
+	void delete(K key);
+	void delete(Filter filterExpr);
+}
+
+IFilterable{
+	Map<String, String> getFilterDefs();
+	void applyFilter(Map<String, String> filterDef);
+	void clearFilter();
+}
+
+ISortable{
+}
+
+IPageable{
+	void setPageSize(int size);
+	int getPageCount();
+}
+
+ISearchable{
+	void setSearchCriteria(String criteria);
+	
+}
+
+Tables:
+
+[CRM]
+Organizations (юр. лица)
+Locations(орг. расположения)
+Persons (физ. лица)
+Addressed (адреса юр/физлиц)
+Contacts (телефоны, мессенджеры)
+
+[Maint]
+Vendors (справочник производителей)
+Models (справочник моделей)
+Devices (регистр устройств)
+Documents (регистр документов)
+
+[MasterData]
+ContactTypes (типы контактной информации)
+LocationTypes (типы расположений)
+DocTypes (тип документов)
+
+[SystemData]
+UserProfiles
+
