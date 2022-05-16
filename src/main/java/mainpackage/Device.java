@@ -1,7 +1,8 @@
 package mainpackage;
 
-import DAL.DeviceDTO;
+import beans.contracts.IDataSource;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,9 @@ import java.util.Objects;
 
 @WebServlet(name = "Device", urlPatterns = "/add")
 public class Device  extends HttpServlet {
+    @EJB
+    IDataSource dataSource;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
@@ -47,7 +51,7 @@ public class Device  extends HttpServlet {
         String date = Objects.toString(req.getParameter("date"),"").trim();
 
         if (!vendor.isEmpty() && !model.isEmpty() && !date.isEmpty()){
-            DeviceDTO.addDevice(vendor, model, Date.valueOf(date));
+            dataSource.createDevice(vendor, model, Date.valueOf(date));
         }
         resp.sendRedirect("/devices");
     }

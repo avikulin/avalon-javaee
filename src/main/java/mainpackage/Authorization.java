@@ -5,8 +5,10 @@
  */
 package mainpackage;
 
+import beans.contracts.ICheckLogin;
+
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +22,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Authorization", urlPatterns = {"/auth"})
 public class Authorization extends HttpServlet {
-    HttpServletRequest request;
+
+    @EJB
+    ICheckLogin loginAdapter;
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -33,11 +37,8 @@ public class Authorization extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        this.request = request;
-        
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        if(!checkParameters(login, password)){
+
+        if(!loginAdapter.checkParameters(request)){
             RequestDispatcher dispatcher = request.getRequestDispatcher("/error");
             dispatcher.forward(request, response);
         }else{
@@ -55,26 +56,5 @@ public class Authorization extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private boolean checkParameters(String login, String password){
-        
-        if(login.isEmpty()) {
-            request.setAttribute("msgError", "Не валидный логин");
-            return false;
-        }
-        if(password.isEmpty()) {
-            request.setAttribute("msgError", "Не валидный пароль");
-            return false;
-        }
-        for(Person p : Person.personList){
-            if(p.getLogin().equals(login)){
-                if(p.getPassword().equals(password)){
-                    p.setSessionId(request.getSession().getId());
-                    request.setAttribute("sessionId", p.getSessionId());
-                    return true;
-                }
-            }
-        }
-        request.setAttribute("msgError", "Логин или пароль не найдены");
-        return false;
-    }
+
 }

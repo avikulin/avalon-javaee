@@ -5,20 +5,19 @@
  */
 package mainpackage;
 
-import DAL.DeviceDTO;
+import API.DTO.DeviceDTO;
+import beans.contracts.IDataSource;
+import beans.contracts.IFilterAdapter;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.util.Objects;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * @author denis
@@ -35,7 +34,11 @@ public class Devices extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    List<DeviceDTO> deviceList;
+    @EJB
+    IDataSource dataSource;
+
+    @EJB
+    IFilterAdapter filterAdapter;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -65,8 +68,8 @@ public class Devices extends HttpServlet {
             out.print("</tr>");
             out.print("</th>");
             out.print("<tbody>");
-            deviceList = DeviceDTO.deviceList;
-            filter(request);
+
+            List<DeviceDTO> deviceList = filterAdapter.filter(request);
 
             for (DeviceDTO d : deviceList) {
                 out.print("<tr>");
@@ -135,35 +138,5 @@ public class Devices extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void filter(HttpServletRequest request) {
-        String vendor = Objects.toString(request.getParameter("vendor"), "").trim();
-        String model = Objects.toString(request.getParameter("model"), "").trim();
-        String dateFrom = Objects.toString(request.getParameter("dateFrom"), "").trim();
-        String dateTo = Objects.toString(request.getParameter("dateTo"), "").trim();
 
-        List<DeviceDTO> tmp = new LinkedList<>();
-        deviceList = DeviceDTO.deviceList;
-        for (DeviceDTO d : deviceList) {
-            if (!vendor.isEmpty() && !d.getVendor().contains(vendor)) {
-                continue;
-            }
-            if (!model.isEmpty() && !d.getModel().contains(model)) {
-                continue;
-            }
-
-            if (!dateFrom.isEmpty() && !d.getDate().after(Date.valueOf(dateFrom))) {
-                continue;
-            }
-
-            if (!dateTo.isEmpty() && !d.getDate().before(Date.valueOf(dateTo))) {
-                continue;
-            }
-
-            tmp.add(d);
-        }
-
-        if (!vendor.isEmpty() || !model.isEmpty() || !dateFrom.isEmpty() || !dateTo.isEmpty()) {
-            deviceList = new ArrayList<>(tmp);
-        }
-    }
 }
