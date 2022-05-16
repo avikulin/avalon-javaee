@@ -44,11 +44,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /c:/users/a.vikulin/IdeaProjects/databases/avalon/javaee/lab1/pg_data
+      device: /databases/postgres/lab1/pg_data
       o: bind
   pgadmin:
     driver: local
     driver_opts:
       type: none
-      device: /c:/users/a.vikulin/IdeaProjects/databases/avalon/javaee/lab1/pg_admin
+      device: /databases/postgres/lab1/pg_admin
       o: bind

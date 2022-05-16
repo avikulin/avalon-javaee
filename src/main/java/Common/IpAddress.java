@@ -1,5 +1,8 @@
 package Common;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class IpAddress {
     int fist;
     int second;

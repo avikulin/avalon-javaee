@@ -4,7 +4,9 @@ import DAL.Utils.Filter.Contracts.FilterCriteria;
 import DAL.Utils.Filter.Enums.CriteriaType;
 import DAL.Utils.Filter.Enums.PredicateType;
 
-public abstract class Predicate<T extends Integer, Date, Double> implements FilterCriteria {
+import java.sql.Date;
+
+public abstract class Predicate<T> implements FilterCriteria {
     private T type;
     private final PredicateType predicate;
     private final Class<?> entity;
