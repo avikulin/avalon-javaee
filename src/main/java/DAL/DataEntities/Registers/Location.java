@@ -13,10 +13,6 @@ public class Location {
     @Column(name = "LOC_ID")
     private Long id;
 
-    @ManyToOne(targetEntity = Organization.class)
-    @JoinColumn(name = "ORG_ID")
-    private Organization organization;
-
     @Column(name = "LOC_NAME", nullable = false, length = 50)
     private String locName;
 
