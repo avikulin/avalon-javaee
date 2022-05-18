@@ -1,16 +1,19 @@
 package Common;
 
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class IpAddress {
-    int fist;
+    int first;
     int second;
     int third;
     int fourth;
 
+    protected IpAddress(){};
+
     public IpAddress(int first, int second, int third, int fourth) {
-        setFist(first);
+        setFirst(first);
         setSecond(second);
         setThird(third);
         setFourth(fourth);
@@ -22,9 +25,9 @@ public class IpAddress {
         throw new IllegalArgumentException("Each octet value must be between 0 and 254.");
     }
 
-    private void setFist(int fist) {
+    private void setFirst(int fist) {
         checkOctet(fist);
-        this.fist = fist;
+        this.first = fist;
     }
 
     private void setSecond(int second) {
@@ -42,8 +45,8 @@ public class IpAddress {
         this.fourth = fourth;
     }
 
-    public int getFist() {
-        return fist;
+    public int getFirst() {
+        return first;
     }
 
     public int getSecond() {
@@ -60,12 +63,28 @@ public class IpAddress {
 
     @Override
     public String toString() {
-        return String.valueOf(fist) +
+        return String.valueOf(first) +
                 '.' +
                 second +
                 '.' +
                 third +
                 '.' +
                 fourth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IpAddress ipAddress = (IpAddress) o;
+        return first == ipAddress.first &&
+                second == ipAddress.second &&
+                third == ipAddress.third &&
+                fourth == ipAddress.fourth;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, second, third, fourth);
     }
 }

@@ -1,5 +1,6 @@
 package DAL.DataEntities.Registers;
 
+import Common.AuditableEntity;
 import DAL.DataEntities.Dictionaries.Sex;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
         @UniqueConstraint(name = "FIO_UC",
                           columnNames = {"FIRST_NAME", "MIDDLE_NAME", "LAST_NAME", "SEX_ID"})
 })
-public class Contact {
+public class Contact extends AuditableEntity {
     @Id
     @GeneratedValue
     @Column(name = "CONTACT_ID")
@@ -41,4 +42,64 @@ public class Contact {
 
     @Column(name = "EMAIL", nullable = true, length = 50)
     private String emailAddress;
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 }

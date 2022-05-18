@@ -1,11 +1,13 @@
 package DAL.DataEntities.Dictionaries;
 
+import Common.AuditableEntity;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "DICT_VENDORS",
        uniqueConstraints = {@UniqueConstraint(name = "NAME_COUNTRY_UC", columnNames = {"VENDOR_NAME", "COUNTRY_ID"})})
-public class Vendor {
+public class Vendor extends AuditableEntity {
     @Id
     @GeneratedValue
     @Column(name = "VENDOR_ID")
@@ -20,4 +22,32 @@ public class Vendor {
 
     @Column(name = "WEB_SITE", nullable = false, length = 200)
     private String webSite;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Country getCountryOfOrigin() {
+        return countryOfOrigin;
+    }
+
+    public void setCountryOfOrigin(Country countryOfOrigin) {
+        this.countryOfOrigin = countryOfOrigin;
+    }
+
+    public String getWebSite() {
+        return webSite;
+    }
+
+    public void setWebSite(String webSite) {
+        this.webSite = webSite;
+    }
 }

@@ -14,9 +14,8 @@ IRepository<K, T>{
 	T getById(K id);
 	List<T> getAll();
 	void create(K key, T value);
-	void updateItm(K key, T newValue);
+	void update(K key, T newValue);
 	void delete(K key);
-	void delete(Filter filterExpr);
 }
 
 IFilterable{
@@ -25,18 +24,7 @@ IFilterable{
 	void clearFilter();
 }
 
-ISortable{
-}
 
-IPageable{
-	void setPageSize(int size);
-	int getPageCount();
-}
-
-ISearchable{
-	void setSearchCriteria(String criteria);
-	
-}
 
 Tables:
 

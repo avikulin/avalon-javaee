@@ -1,5 +1,7 @@
 package DAL.DataEntities.Registers;
 
+import Common.AuditableEntity;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
 @Table(name = "REG_ORG_LOCATIONS", uniqueConstraints = {
         @UniqueConstraint(name = "ORG_LOCATIONS_UC",columnNames = {"ORG_ID", "LOC_NAME"})
 })
-public class Location {
+public class Location extends AuditableEntity {
     @Id
     @GeneratedValue
     @Column(name = "LOC_ID")
@@ -21,4 +23,28 @@ public class Location {
 
     @ManyToMany(mappedBy = "locations")
     private List<Contact> contacts;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLocName() {
+        return locName;
+    }
+
+    public void setLocName(String locName) {
+        this.locName = locName;
+    }
+
+    public String getLocAddress() {
+        return locAddress;
+    }
+
+    public void setLocAddress(String locAddress) {
+        this.locAddress = locAddress;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
 }
