@@ -20,7 +20,7 @@ public class IpAddress {
     }
 
     private void checkOctet(int octet){
-        if(octet > 0 && octet < 255)
+        if(octet >= 0 && octet < 255)
             return;
         throw new IllegalArgumentException("Each octet value must be between 0 and 254.");
     }

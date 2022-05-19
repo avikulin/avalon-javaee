@@ -4,6 +4,7 @@ import Common.AuditableEntity;
 import DAL.DataEntities.Dictionaries.OrgType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,8 +22,13 @@ public class Organization extends AuditableEntity {
     @Column(name = "ORG_NAME", nullable = false, unique = true, length = 200)
     private String name;
 
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORG_ID")
     private List<Location> locations;
+
+    public Organization() {
+        this.locations = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
