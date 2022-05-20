@@ -7,13 +7,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "REG_ORG_LOCATIONS", uniqueConstraints = {
-        @UniqueConstraint(name = "ORG_LOCATIONS_UC",columnNames = {"ORG_ID", "LOC_NAME"})
+        @UniqueConstraint(name = "ORG_LOCATIONS_UC",columnNames = {"ORGANIZATION_ID", "LOC_NAME"})
 })
 public class Location extends AuditableEntity {
     @Id
     @GeneratedValue
     @Column(name = "LOC_ID")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORGANIZATION_ID")
+    private Organization organization;
 
     @Column(name = "LOC_NAME", nullable = false, length = 50)
     private String locName;
@@ -46,5 +50,13 @@ public class Location extends AuditableEntity {
 
     public List<Contact> getContacts() {
         return contacts;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public Organization getOrganization() {
+        return organization;
     }
 }

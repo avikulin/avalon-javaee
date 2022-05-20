@@ -1,21 +1,22 @@
 package DAL.Utils.Filter;
 
-import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
+import Common.IpAddress;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 class ResultDto{
-    private String code;
-    private String modelCode;
-    private int numPorts;
-    private String organization;
-    private String location;
-    private String ip;
+    private final String code;
+    private final String modelCode;
+    private final int numPorts;
+    private final String organization;
+    private final String location;
+    private final IpAddress ip;
 
-    public ResultDto(String code, String modelCode, int numPorts, String organization, String location, String ip) {
+    public ResultDto(String code, String modelCode, int numPorts, String organization, String location, IpAddress ip) {
         this.code = code;
         this.modelCode = modelCode;
         this.numPorts = numPorts;
@@ -32,7 +33,7 @@ class ResultDto{
                 ", numPorts=" + numPorts +
                 ", organization='" + organization + '\'' +
                 ", location='" + location + '\'' +
-                ", ip='" + ip + '\'' +
+                ", ip='" + ip.toString() + '\'' +
                 '}';
     }
 }
@@ -41,17 +42,18 @@ public class debug_runner_query_data {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("lab1");
         EntityManager em = emf.createEntityManager();
-        List<ResultDto> res = em.createQuery(
-                                            "select new ru.avalon.java.DAL.Utils.Filter.ResultDTO(" +
+        TypedQuery<ResultDto> q = em.createQuery(
+                                            "select new " +
+                                                    "DAL.Utils.Filter.ResultDto(" +
                                                     "eu.code, " +
-                                                    "eu.model.modelCode, " +
-                                                    "eu.model.numPoEPorts, " +
-                                                    "eu.location.organization, " +
+                                                    "eu.model.modelCode," +
+                                                    "eu.model.numPoEPorts," +
+                                                    "eu.location.organization.name," +
                                                     "eu.location.locName, " +
                                                     "eu.ipAddress) " +
-                                                "from Equipment eu").getResultList();
-
-        for(ResultDto dto: res){
+                                                "from Equipment eu", ResultDto.class);
+        List<ResultDto> r = q.getResultList();
+        for(ResultDto dto: r){
             System.out.println(dto);
         }
     }

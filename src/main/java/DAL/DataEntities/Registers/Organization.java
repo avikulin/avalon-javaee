@@ -22,13 +22,8 @@ public class Organization extends AuditableEntity {
     @Column(name = "ORG_NAME", nullable = false, unique = true, length = 200)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORG_ID")
-    private List<Location> locations;
-
-    public Organization() {
-        this.locations = new ArrayList<>();
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
+    private List<Location> locations = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -54,3 +49,5 @@ public class Organization extends AuditableEntity {
         return locations;
     }
 }
+
+

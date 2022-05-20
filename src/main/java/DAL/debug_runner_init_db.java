@@ -41,16 +41,18 @@ public class debug_runner_init_db {
         sex.setName("Male");
         em.persist(sex);
 
-        Location location = new Location();
-        location.setLocName("Main office");
-        location.setLocAddress("143520, Moscow area, city distr. Istra, Svetlogorye village, 14a");
-        em.persist(location);
+
 
         Organization organization = new Organization();
         organization.setName("Рога и копыта");
         organization.setType(orgType);
-        organization.getLocations().add(location);
         em.persist(organization);
+
+        Location location = new Location();
+        location.setLocName("Main office");
+        location.setLocAddress("143520, Moscow area, city distr. Istra, Svetlogorye village, 14a");
+        location.setOrganization(organization);
+        em.persist(location);
 
         Contact contact = new Contact();
         contact.setLastName("Vikulin");
