@@ -1,4 +1,4 @@
-package DAL;
+package TestDAL;
 
 import Common.IpAddress;
 import DAL.DataEntities.Dictionaries.*;
